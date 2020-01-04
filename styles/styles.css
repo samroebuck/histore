@@ -1,0 +1,114 @@
+button {
+    margin-left: auto;
+    border: none;
+
+    overflow: visible;
+    background: transparent;
+}
+
+header {
+    padding-top: .5em;
+    padding-bottom: .5em;
+    background-color: #f4f4f4;
+    -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
+    display: grid;
+    grid-template-columns: 1fr repeat(1, auto) 1fr;
+    grid-column-gap: 5px;
+    justify-items: center;
+    font-family: 'Montserrat', sans-serif;
+    z-index: 2;
+    position: relative;
+}
+
+.viewchanger {
+    grid-column-start: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.view-list {
+    border: #dc8b47 1px solid;
+    padding: .2em;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    width: 60px;
+    color: #dc8b47;
+}
+
+.view-map {
+    background-color: #dc8b47;
+    border: #dc8b47 1px solid;
+    padding: .2em;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width:60px;
+    color: white;
+}
+
+.panel-wrapper {
+    position:fixed;
+    left:50%;  
+    z-index: 1;
+}
+
+.panel-wrapper #panel {
+    position:relative; 
+    left:-50%;
+}
+
+
+/* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+#map {
+    height: 100%;
+    /* background-color: grey; */
+}
+
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* TODO: Step 4A1: Make a generic sidebar */
+/* Styling for an info pane that slides out from the left. 
+     * Hidden by default. */
+#panel {
+    height: 100%;
+    width: null;
+    background-color: white;
+    position: fixed;
+    z-index: 1;
+    overflow-x: hidden;
+    transition: all 0.2s ease-out;
+}
+
+.open {
+    width: 85vw;
+}
+
+/* Styling for place details */
+.hero {
+    width: 100%;
+    height: auto;
+    max-height: 166px;
+    display: block;
+}
+
+.place,
+p {
+    font-family: 'Montserrat', sans-serif;
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+.details {
+    color: darkslategrey;
+}
