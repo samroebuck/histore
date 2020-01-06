@@ -19,7 +19,7 @@ button {
     font-family: 'Montserrat', sans-serif;
     z-index: 6;
     position: fixed;
-    height: 6vh;
+    height: auto;
     width: 100%;
 }
 
