@@ -423,7 +423,7 @@ function getNearbyPlaces(position) {
   let request = {
     location: position,
     keyword: "place of interest",
-    radius: "500"
+    radius: "1000"
   };
   service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, nearbyCallback);
