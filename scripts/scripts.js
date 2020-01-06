@@ -15,11 +15,12 @@ let photoElem = document.querySelector(".photo");
 let snippetElem = document.querySelector(".snippet");
 let wikiElem = document.querySelector(".wiki");
 let buttontext = document.querySelector(".wiki p");
-
 let check;
 let noInfo =
   "No information found for this location on Wikipedia. Click below to find out how to make one!";
 
+
+  // wiki call using axios
 async function getFromWiki() {
   try {
     const response = await axios.get(
@@ -27,22 +28,23 @@ async function getFromWiki() {
         placeToSearch
     );
 
+    // store snippet and title for check
     for (var i in response.data.query.pages) {
       check = response.data.query.pages[i].title;
       snippet = response.data.query.pages[i].extract;
     }
 
-    if (placeToSearch == check || placeToSearch.includes(check)) {
-    } else {
+    // check if google listing matches a wiki listing
+    if (placeToSearch !== check || !placeToSearch.includes(check)) {
       snippet = noInfo
-      buttontext.textContent ='Create an page';
-  
+      buttontext.textContent ='Create a page';
     }
   } catch (error) {
     console.error(error);
   }
 }
 
+// start the map
 function initMap() {
   bounds = new google.maps.LatLngBounds();
   infoWindow = new google.maps.InfoWindow();
@@ -50,6 +52,7 @@ function initMap() {
 
   infoPane = document.getElementById("panel");
 
+  //check if has HTML5 geolocation
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       position => {
@@ -236,6 +239,7 @@ function initMap() {
   }
 }
 
+// if no location give default location
 function handleLocationError(browserHasGeolocation, infoWindow) {
   pos = { lat: 53.806683, lng: -1.555033 };
   map = new google.maps.Map(document.getElementById("map"), {
@@ -414,34 +418,40 @@ function handleLocationError(browserHasGeolocation, infoWindow) {
   getNearbyPlaces(pos);
 }
 
+// find places of interest 
 function getNearbyPlaces(position) {
   let request = {
     location: position,
     keyword: "place of interest",
-    radius: "1000"
+    radius: "500"
   };
   service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, nearbyCallback);
 }
 
+
+// after got places run createMarkers
 function nearbyCallback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     createMarkers(results);
   }
 }
 
+// create marks for places
 function createMarkers(places) {
   places.forEach(place => {
     let marker = new google.maps.Marker({
       position: place.geometry.location,
       icon: {
-        url: "./mapicon.svg",
+        url: "./images/mapicon.svg",
         size: new google.maps.Size(35, 35),
         scaledSize: new google.maps.Size(35, 35)
       },
       map: map,
       title: placeToSearch
     });
+
+    //add event listener
     google.maps.event.addListener(marker, "click", () => {
       let request = {
         placeId: place.place_id,
@@ -458,6 +468,7 @@ function createMarkers(places) {
   map.fitBounds(bounds);
 }
 
+// on click fetch data from google and wiki
 async function showDetails(placeResult, marker, status) {
   await getFromWiki();
   if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -466,6 +477,8 @@ async function showDetails(placeResult, marker, status) {
     console.log("showDetails failed: " + status);
   }
 }
+
+// pop up controls
 
 function showPanel(placeResult) {
   if (infoPane.classList.contains("open")) {
@@ -491,11 +504,13 @@ function showPanel(placeResult) {
     wikiElem.href= 'https://en.wikipedia.org/wiki/Wikipedia:How_to_create_a_page';
   } else {
   wikiElem.href = "https://en.wikipedia.org/wiki/" + placeToSearch;
+  buttontext.textContent ='Find out more';
   }
 
   infoPane.classList.add("open");
 }
 
+// close control
 document.querySelector(".exit").addEventListener("click", function() {
   document.getElementById("panel").classList.remove("open");
 });
