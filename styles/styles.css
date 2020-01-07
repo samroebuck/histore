@@ -65,7 +65,7 @@ body {
 
 #panel {
     background-color: #e9e1c3;
-    z-index: 3;
+    z-index: -1;
     overflow-x: hidden;
     transition: all 0.2s ease-out;
     position: absolute;
@@ -98,6 +98,7 @@ body {
     top: 12vh;
     transform: translate(-50%, 0%);
     height: auto;
+    z-index: 3;
 }
 
 .photo {
